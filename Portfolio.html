@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikhil Shirdhankar — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        oklch(10% 0.008 260);
+    --bg2:       oklch(13% 0.008 260);
+    --bg3:       oklch(16% 0.009 260);
+    --border:    oklch(22% 0.010 260);
+    --text:      oklch(88% 0.008 80);
+    --muted:     oklch(55% 0.010 260);
+    --accent:    oklch(72% 0.16 62);
+    --accent2:   oklch(62% 0.14 200);
+    --mono:      'DM Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── Layout ── */
+  .site-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 0 48px 40px;
+    border-right: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sidebar-nav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -12px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .sidebar-nav a.active,
+  .sidebar-nav a:hover {
+    color: var(--text);
+    border-left-color: var(--accent);
+  }
+
+  .sidebar-footer {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Main ── */
+  main {
+    padding: 0;
+  }
+
+  section {
+    padding: 96px 64px 96px 80px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  /* ── Hero ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: clamp(52px, 6vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .hero-name strong {
+    font-weight: 600;
+    display: block;
+  }
+
+  .hero-title {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 56px;
+    max-width: 480px;
+    line-height: 1.8;
+  }
+
+  .hero-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--bg2);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--bg3);
+  }
+
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Experience ── */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+
+  .exp-item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-meta {
+    padding-top: 3px;
+  }
+
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .exp-location {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--border);
+    letter-spacing: 0.05em;
+  }
+
+  .exp-status {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  .exp-body {}
+
+  .exp-role {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    font-family: var(--mono);
+  }
+
+  .exp-company {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .exp-bullets li {
+    font-size: 14px;
+    color: oklch(70% 0.008 260);
+    line-height: 1.65;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  .exp-bullets li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── Tech Stack ── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+  }
+
+  .stack-item {
+    padding: 24px 20px;
+    background: var(--bg2);
+    border: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stack-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .stack-item:hover {
+    background: var(--bg3);
+    color: var(--accent);
+  }
+
+  .stack-item:hover::before {
+    transform: scaleX(1);
+  }
+
+  .stack-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  /* ── Proud of ── */
+  .proud-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    border: 1px solid var(--border);
+  }
+
+  .proud-card {
+    padding: 48px 40px;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .proud-card::after {
+    content: attr(data-num);
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    font-family: var(--mono);
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--border);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .proud-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .proud-card-desc {
+    font-size: 13.5px;
+    color: oklch(62% 0.010 260);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Awards & Certs ── */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 60px;
+  }
+
+  .award-item {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+
+  .award-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .award-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .award-org {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── Contact / Footer ── */
+  #contact {
+    border-bottom: none;
+  }
+
+  .contact-big {
+    font-size: clamp(36px, 4vw, 60px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 48px;
+    max-width: 600px;
+  }
+
+  .contact-big strong {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    transition: border-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .contact-link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── Tweaks Panel ── */
+  #tweaks-panel {
+    display: none;
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    width: 260px;
+    z-index: 10000;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  }
+
+  #tweaks-panel.open { display: block; }
+
+  .tweaks-title {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .tweak-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .tweak-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .tweak-select, .tweak-toggle-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .tweak-select:focus { outline: none; border-color: var(--accent); }
+
+  /* ── Scroll animations ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    .site-wrap { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    section { padding: 64px 28px; }
+    .exp-item { grid-template-columns: 1fr; gap: 16px; }
+    .proud-grid, .awards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-wrap">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">NS</div>
+    <nav class="sidebar-nav">
+      <a href="#hero" class="active">Index</a>
+      <a href="#experience">Experience</a>
+      <a href="#stack">Stack</a>
+      <a href="#proud">Highlights</a>
+      <a href="#awards">Awards</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="sidebar-footer">© 2026 Nikhil Shirdhankar</div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-eyebrow">Backend Engineer</div>
+      <h1 class="hero-name">
+        <span>Nikhil</span>
+        <strong>Shirdhankar</strong>
+      </h1>
+      <p class="hero-title">
+        Building high-performance distributed systems, real-time data pipelines,<br>
+        and production-grade APIs since 2015. Based in Ratnagiri, Maharashtra.
+      </p>
+      <div class="hero-contacts">
+        <a class="pill" href="/cdn-cgi/l/email-protection#fb959290939297c9c2cebb9c969a9297d5989496">
+          <span class="pill-dot"></span><span class="__cf_email__" data-cfemail="9af4f3f1f2f3f6a8a3afdafdf7fbf3f6b4f9f5f7">[email&#160;protected]</span>
+        </a>
+        <a class="pill" href="tel:+919096546781">
+          <span class="pill-dot"></span>+91 9096546781
+        </a>
+        <a class="pill" href="https://github.com/phoenix-295" target="_blank">
+          <span class="pill-dot"></span>github/phoenix-295
+        </a>
+        <a class="pill" href="https://linkedin.com/in/nikhil-shirdhankar-9720a3204" target="_blank">
+          <span class="pill-dot"></span>linkedin
+        </a>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section-label">Experience</div>
+      <div class="exp-list">
+
+        <div class="exp-item reveal">
+          <div class="exp-meta">
+            <div class="exp-period">Jan 2026<br>Ongoing</div>
+            <div class="exp-location">Remote</div>
+            <span class="exp-status">Active</span>
+          </div>
+          <div class="exp-body">
+            <div class="exp-role">Backend Intern</div>
+            <div class="exp-company">AAIT</div>
+            <ul class="exp-bullets">
+              <li>Built backend logic for <strong>Pharma Gen</strong> using FastAPI — core API design and data processing workflows.</li>
+              <li>Developed and integrated REST endpoints for the <strong>HR project</strong> supporting human resource operations.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item reveal">
+          <div class="exp-meta">
+            <div class="exp-period">Feb 2022<br>Ongoing</div>
+            <div class="exp-location">Ratnagiri</div>
+            <span class="exp-status">Active</span>
+          </div>
+          <div class="exp-body">
+            <div class="exp-role">Software Engineer – Backend</div>
+            <div class="exp-company">Pleximus</div>
+            <ul class="exp-bullets">
+              <li>Maintain a <strong>Go-based web application</strong> enabling real-time communication with industrial data loggers and scanning devices in production environments.</li>
+              <li>Design and develop high-performance <strong>REST APIs</strong> using FastAPI, Django, and Flask; manage Linux-based DigitalOcean servers and database provisioning.</li>
+              <li>Optimized backend services and built scalable <strong>web scraping systems</strong> using Playwright, Scrapy, and BeautifulSoup for large-scale data extraction.</li>
+              <li>Design and implement <strong>Power Apps</strong> solutions and automated workflows via Power Automate, reducing manual operational effort.</li>
+              <li>Develop and deploy <strong>smart contracts</strong> on the Ethereum mainnet using Brownie.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item reveal">
+          <div class="exp-meta">
+            <div class="exp-period">Aug 2015<br>May 2018</div>
+            <div class="exp-location">Ratnagiri</div>
+          </div>
+          <div class="exp-body">
+            <div class="exp-role">.NET Developer</div>
+            <div class="exp-company">Perfect Computers</div>
+            <ul class="exp-bullets">
+              <li>Taught <strong>web development using C# and .NET</strong> to undergraduate and diploma students, improving technical proficiency.</li>
+              <li>Mentored students through hands-on projects building functional web applications.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section id="stack">
+      <div class="section-label">Tech Stack</div>
+      <div class="stack-grid reveal">
+        <div class="stack-item"><div class="stack-label">Language</div>Go</div>
+        <div class="stack-item"><div class="stack-label">Language</div>Python</div>
+        <div class="stack-item"><div class="stack-label">Framework</div>FastAPI</div>
+        <div class="stack-item"><div class="stack-label">Framework</div>Django</div>
+        <div class="stack-item"><div class="stack-label">Framework</div>Flask</div>
+        <div class="stack-item"><div class="stack-label">Databases</div>PostgreSQL</div>
+        <div class="stack-item"><div class="stack-label">Databases</div>MySQL</div>
+        <div class="stack-item"><div class="stack-label">Scraping</div>Playwright</div>
+        <div class="stack-item"><div class="stack-label">Scraping</div>Scrapy</div>
+        <div class="stack-item"><div class="stack-label">Scraping</div>BeautifulSoup</div>
+        <div class="stack-item"><div class="stack-label">Infra</div>DigitalOcean / Linux</div>
+        <div class="stack-item"><div class="stack-label">Web3</div>Ethereum / Brownie</div>
+        <div class="stack-item"><div class="stack-label">Automation</div>Power Apps</div>
+        <div class="stack-item"><div class="stack-label">Automation</div>Power Automate</div>
+        <div class="stack-item"><div class="stack-label">Domain</div>Distributed Systems</div>
+        <div class="stack-item"><div class="stack-label">Domain</div>Data Pipelines</div>
+      </div>
+    </section>
+
+    <!-- Highlights -->
+    <section id="proud">
+      <div class="section-label">Highlights</div>
+      <div class="proud-grid reveal">
+        <div class="proud-card" data-num="01">
+          <div class="proud-card-title">Automated Large-Scale Data Pipelines</div>
+          <div class="proud-card-desc">Designed and implemented a scalable web scraping infrastructure that automated large-volume data collection — replacing manual processes with a production-grade distributed system.</div>
+        </div>
+        <div class="proud-card" data-num="02">
+          <div class="proud-card-title">Real-Time Industrial Production System</div>
+          <div class="proud-card-desc">Engineered and maintained a Go-based platform enabling live communication with industrial data loggers and scanning devices — running reliably in production environments at scale.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Awards & Certs -->
+    <section id="awards">
+      <div class="section-label">Awards &amp; Certification</div>
+      <div class="awards-grid reveal">
+        <div class="award-item">
+          <div class="award-meta">Award · 2023, 2025</div>
+          <div class="award-title">Innovation Trailblazer Award</div>
+          <div class="award-org">Pleximus</div>
+        </div>
+        <div class="award-item">
+          <div class="award-meta">Award · 2024</div>
+          <div class="award-title">Promising Pathfinders – Trailblazers of Tomorrow</div>
+          <div class="award-org">Pleximus</div>
+        </div>
+        <div class="award-item" style="grid-column: 1 / -1;">
+          <div class="award-meta">Certification · IIT Roorkee</div>
+          <div class="award-title">Executive Post Graduate Certification in Data Science &amp; Artificial Intelligence</div>
+          <div class="award-org">iHUB DivyaSampark, Indian Institute of Technology Roorkee · via Intellipaat</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-label">Contact</div>
+      <p class="contact-big">Let's build something <strong>remarkable</strong> together.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="/cdn-cgi/l/email-protection#0d6364666564613f34384d6a606c6461236e6260">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M1 4l6 4 6-4" stroke="currentColor" stroke-width="1.2"/></svg>
+          <span class="__cf_email__" data-cfemail="4a24232122232678737f0a2d272b232664292527">[email&#160;protected]</span>
+        </a>
+        <a class="contact-link" href="https://github.com/phoenix-295" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M7 0.5C3.41 0.5 0.5 3.41 0.5 7c0 2.87 1.86 5.3 4.44 6.16.32.06.44-.14.44-.3v-1.05c-1.8.39-2.18-.87-2.18-.87-.3-.75-.72-.95-.72-.95-.59-.4.04-.39.04-.39.65.05 1 .67 1 .67.58 1 1.52.71 1.89.54.06-.42.23-.71.41-.87-1.44-.16-2.95-.72-2.95-3.2 0-.7.25-1.28.66-1.73-.07-.16-.29-.82.06-1.71 0 0 .54-.17 1.76.66a6.1 6.1 0 013.2 0c1.22-.83 1.76-.66 1.76-.66.35.89.13 1.55.06 1.71.41.45.66 1.03.66 1.73 0 2.49-1.52 3.04-2.96 3.2.23.2.44.6.44 1.2v1.79c0 .17.11.37.44.3A6.5 6.5 0 0013.5 7C13.5 3.41 10.59.5 7 .5z"/></svg>
+          github/phoenix-295
+        </a>
+        <a class="contact-link" href="https://linkedin.com/in/nikhil-shirdhankar-9720a3204" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="5" width="2.5" height="8" rx="0.5"/><circle cx="2.25" cy="2.25" r="1.25"/><path d="M5.5 5h2.5v1.1C8.4 5.4 9.2 5 10.2 5c2 0 2.8 1.3 2.8 3.1V13h-2.5V8.5c0-.9-.3-1.5-1.1-1.5s-1.4.6-1.4 1.6V13H5.5V5z"/></svg>
+          LinkedIn
+        </a>
+        <a class="contact-link" href="tel:+919096546781">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 2h2.7l1 2.5-1.5 1a8 8 0 004.8 4.8l1-1.5 2.5 1V12.5C12.5 12.8 11.5 13 11 13 5.5 13 1 8.5 1 3c0-.5.2-1.5.5-1z" stroke="currentColor" stroke-width="1.2"/></svg>
+          +91 9096546781
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Tweaks Panel -->
+<div id="tweaks-panel">
+  <div class="tweaks-title">Tweaks</div>
+  <div class="tweak-row">
+    <span class="tweak-label">Accent Color</span>
+    <select class="tweak-select" id="tweak-accent">
+      <option value="amber" selected>Amber</option>
+      <option value="cyan">Cyan</option>
+      <option value="rose">Rose</option>
+      <option value="green">Green</option>
+    </select>
+  </div>
+  <div class="tweak-row">
+    <span class="tweak-label">Type Size</span>
+    <select class="tweak-select" id="tweak-size">
+      <option value="14">Compact</option>
+      <option value="15" selected>Default</option>
+      <option value="16">Relaxed</option>
+    </select>
+  </div>
+  <div class="tweak-row">
+    <span class="tweak-label">Sidebar</span>
+    <button class="tweak-toggle-btn" id="tweak-sidebar">Visible</button>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Tweaks protocol ──
+(function() {
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "accent": "amber",
+    "size": "15",
+    "sidebar": true
+  }/*EDITMODE-END*/;
+
+  const accentMap = {
+    amber: 'oklch(72% 0.16 62)',
+    cyan:  'oklch(72% 0.16 200)',
+    rose:  'oklch(68% 0.18 10)',
+    green: 'oklch(68% 0.16 140)'
+  };
+
+  function applyTweaks(t) {
+    document.documentElement.style.setProperty('--accent', accentMap[t.accent] || accentMap.amber);
+    document.body.style.fontSize = t.size + 'px';
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) sidebar.style.display = t.sidebar === false ? 'none' : '';
+  }
+
+  applyTweaks(TWEAKS);
+
+  let state = { ...TWEAKS };
+
+  window.addEventListener('message', e => {
+    if (e.data?.type === '__activate_edit_mode') {
+      document.getElementById('tweaks-panel').classList.add('open');
+    }
+    if (e.data?.type === '__deactivate_edit_mode') {
+      document.getElementById('tweaks-panel').classList.remove('open');
+    }
+  });
+
+  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+  document.getElementById('tweak-accent').value = state.accent;
+  document.getElementById('tweak-size').value = state.size;
+
+  document.getElementById('tweak-accent').addEventListener('change', e => {
+    state.accent = e.target.value;
+    applyTweaks(state);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
+  });
+
+  document.getElementById('tweak-size').addEventListener('change', e => {
+    state.size = e.target.value;
+    applyTweaks(state);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
+  });
+
+  const sidebarBtn = document.getElementById('tweak-sidebar');
+  sidebarBtn.addEventListener('click', () => {
+    state.sidebar = state.sidebar === false ? true : false;
+    sidebarBtn.textContent = state.sidebar === false ? 'Hidden' : 'Visible';
+    applyTweaks(state);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
+  });
+})();
+
+// ── Scroll spy ──
+(function() {
+  const sections = ['hero','experience','stack','proud','awards','contact'];
+  const links = document.querySelectorAll('.sidebar-nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+
+// ── Reveal on scroll ──
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
